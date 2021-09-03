@@ -13,7 +13,7 @@ class SQLite(
     errorHandler: DatabaseErrorHandler?
 ) : SQLiteOpenHelper(context, name, factory, version, errorHandler) {
     override fun onCreate(db: SQLiteDatabase?) {
-        db?.execSQL("create table asistencia (id int primary key, descripcion text, precio real)")
+        db?.execSQL("create table asistencia (id int primary key, carrera text, docente text, asignatura text, semestre text, area text)")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
