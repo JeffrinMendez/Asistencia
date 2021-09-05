@@ -8,26 +8,32 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+
+
     }
 
 
 
-    fun startAplication(view: View){
+    fun Agregar(view: View){
 
 
-        var click =findViewById<Button>(R.id.Click)
+        var click =findViewById<ImageButton>(R.id.Click)
 
         val intent = Intent(this, Agregar::class.java)
         startActivity(intent)
 
 
     }
+
+
 
 }
 

@@ -1,11 +1,12 @@
 package com.example.asistencia
 
 import android.content.ContentValues
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.*
 
 class Agregar : AppCompatActivity() {
 
@@ -17,6 +18,9 @@ class Agregar : AppCompatActivity() {
     var txtSemestre: EditText?=null
     var txtArea: EditText?=null
     var txtFecha: EditText?=null
+    var tvAsistencia:TableLayout?=null
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_agregar)
@@ -28,6 +32,7 @@ class Agregar : AppCompatActivity() {
         txtAsignatura = findViewById(R.id.txtAsignatura)
         txtSemestre = findViewById(R.id.txtSemestre)
         txtArea = findViewById(R.id.txtArea)
+        tvAsistencia = findViewById(R.id.tvAsistencio)
 
 
     }
@@ -74,7 +79,10 @@ class Agregar : AppCompatActivity() {
 
 
         }
-            baseDatos.close()
+
+        llenarTabla()
+
+        baseDatos.close()
 
     }
 
@@ -155,14 +163,140 @@ class Agregar : AppCompatActivity() {
 
         }
 
-
-
+        llenarTabla()
 
 
     }
 
 
 
+            fun editar(view: View){
+
+                val con=SQLite(this, "asistencia",null,1)
+                val baseDatos=con.writableDatabase
+                val codigo=txtCodigo?.text.toString()
+                val carrera= txtCarrera?.text.toString()
+                val docente= txtDocente?.text.toString()
+                val asignatura= txtAsignatura?.text.toString()
+                val semestre= txtSemestre?.text.toString()
+                val area= txtArea?.text.toString()
+
+                if(!codigo.isEmpty() && !carrera.isEmpty()&& !docente.isEmpty() && !asignatura.isEmpty() && !semestre.isEmpty() && !area.isEmpty()) {
+
+                    var registro=ContentValues()
+                    registro.put("codigo",codigo)
+                    registro.put("carrera", carrera)
+                    registro.put("docente",docente)
+                    registro.put("asignatura", asignatura)
+                    registro.put("semestre", semestre)
+                    registro.put("area", area)
+
+                    val cant= baseDatos.update("asistencia",registro, "codigo='$codigo'",null)
+                                    if (cant>0){
+
+                                                     Toast.makeText(this, "El registro se ha actualizado exitosamente", Toast.LENGTH_SHORT).show()
+                                               }else{
+
+                                                         Toast.makeText(this, "El registro no fue encontrado", Toast.LENGTH_SHORT).show()
+
+                                                    }
+
+     }else{
+            Toast.makeText(this, "Los campos no deben estar vacios", Toast.LENGTH_SHORT).show()
+
+          }
+                llenarTabla()
+
+
+    }
+
+
+
+    fun llenarTabla(){
+        tvAsistencia?.removeAllViews()
+        val con=SQLite(this, "asistencia", null,1)
+        val baseDatos=con.writableDatabase
+        val fila=baseDatos.rawQuery("select codigo,carrera,docente,asignatura,semestre,area from asistencia",null)
+
+
+        fila.moveToFirst()
+        do {
+            val registro=LayoutInflater.from(this).inflate(R.layout.item_table_layout_pn,null,false)
+            val tvCodigo=registro.findViewById<View>(R.id.tvCodigo) as TextView
+            val tvCarrera=registro.findViewById<View>(R.id.tvCarrera) as TextView
+            val tvDocente=registro.findViewById<View>(R.id.tvDocente)as TextView
+            val tvAsignatura=registro.findViewById<View>(R.id.tvAsignatura) as TextView
+            val tvSemestre=registro.findViewById<View>(R.id.tvSemestre) as TextView
+            val tvArea=registro.findViewById<View>(R.id.tvArea) as TextView
+
+            tvCodigo.setText(fila.getString(0))
+            tvCarrera.setText(fila.getString(1))
+            tvDocente.setText(fila.getString(2))
+            tvAsignatura.setText(fila.getString(3))
+            tvSemestre.setText(fila.getString(4))
+            tvArea.setText(fila.getString(5))
+            tvAsistencia?.addView(registro)
+
+
+
+        }while (fila.moveToNext())
+
+
+    }
+
+
+    fun clickRegistroAsistencia(view: View){
+        resetColorRegistros()
+        view.setBackgroundColor(Color.GREEN)
+        val registro=view as TableRow
+        val controlCodigo=registro.getChildAt(0) as TextView
+        val codigo=controlCodigo.text.toString()
+        val con=SQLite(this, "asistencia",null,1)
+        val baseDatos=con.writableDatabase
+        if(!codigo.isEmpty()){
+
+            val fila = baseDatos.rawQuery("select codigo,carrera,docente,asignatura,semestre,area from asistencia where codigo='$codigo'",null)
+            if (fila.moveToFirst()){
+
+                txtCodigo?.setText(fila.getString(0))
+                txtCarrera?.setText(fila.getString(1))
+                txtDocente?.setText(fila.getString(2))
+                txtAsignatura?.setText(fila.getString(3))
+                txtSemestre?.setText(fila.getString(4))
+                txtArea?.setText(fila.getString(5))
+
+            }else{
+
+                txtCodigo?.setText("")
+                txtCarrera?.setText("")
+                txtDocente?.setText("")
+                txtAsignatura?.setText("")
+                txtSemestre?.setText("")
+                txtArea?.setText("")
+                Toast.makeText(this, "No se ha encontrado ningun registro", Toast.LENGTH_SHORT).show()
+
+            }
+
+        }
+
+
+
+    }
+
+
+    fun resetColorRegistros(){
+
+
+        for (i in 0 .. tvAsistencia!!.childCount){
+
+            val registro=tvAsistencia?.getChildAt(i)
+            registro?.setBackgroundColor(Color.WHITE)
+
+        }
+
+
+    }
 
 
 }
+
