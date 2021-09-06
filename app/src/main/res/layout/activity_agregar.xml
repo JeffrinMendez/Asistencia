@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#7ED6C9"
     tools:context=".Agregar">
 
     <Button
@@ -75,6 +76,7 @@
         android:ems="10"
         android:hint="Area"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,6 +90,7 @@
         android:ems="10"
         android:hint="Semestre"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.96"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +104,7 @@
         android:ems="10"
         android:hint="Carrera"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.072"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,6 +118,7 @@
         android:ems="10"
         android:hint="Docente"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.964"
         app:layout_constraintStart_toStartOf="parent"
@@ -127,13 +132,14 @@
         android:ems="10"
         android:hint="Asignatura"
         android:inputType="textPersonName"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.071"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCarrera" />
 
     <TableLayout
-        android:id="@+id/tvAsistencio"
+        android:id="@+id/tvAsistencia"
         android:layout_width="398dp"
         android:layout_height="268dp"
         android:layout_marginTop="252dp"

@@ -19,7 +19,7 @@ class Agregar : AppCompatActivity() {
     var txtArea: EditText?=null
     var txtFecha: EditText?=null
     var tvAsistencia:TableLayout?=null
-
+    var tvPrincipal:TableLayout?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,8 @@ class Agregar : AppCompatActivity() {
         txtAsignatura = findViewById(R.id.txtAsignatura)
         txtSemestre = findViewById(R.id.txtSemestre)
         txtArea = findViewById(R.id.txtArea)
-        tvAsistencia = findViewById(R.id.tvAsistencio)
+        tvAsistencia = findViewById(R.id.tvAsistencia)
+
 
 
     }
@@ -214,6 +215,7 @@ class Agregar : AppCompatActivity() {
 
     fun llenarTabla(){
         tvAsistencia?.removeAllViews()
+
         val con=SQLite(this, "asistencia", null,1)
         val baseDatos=con.writableDatabase
         val fila=baseDatos.rawQuery("select codigo,carrera,docente,asignatura,semestre,area from asistencia",null)
@@ -236,6 +238,7 @@ class Agregar : AppCompatActivity() {
             tvSemestre.setText(fila.getString(4))
             tvArea.setText(fila.getString(5))
             tvAsistencia?.addView(registro)
+          
 
 
 
